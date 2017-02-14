@@ -1,0 +1,17 @@
+﻿@model DateTime
+<script>
+        $(function () {
+            $(".datepicker").datetimepicker({
+                lang: 'es',
+                format: 'dd/mm/YYYY',
+                formatDate: 'dd/mm/YYYY',
+                dayOfWeekStart: 1,
+                mask: true,
+                timepicker: false
+
+        });
+        });
+</script>
+@Html.TextBox("", (Model == DateTime.MinValue ? null : Model.ToString("dd/MM/yyyy")), new { @class = "datepicker" })
+
+

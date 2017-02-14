@@ -1,0 +1,13 @@
+﻿@model EF10.Models.CabeceraFras
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+    <br/>
+    <input id="Submit1" type="submit" value="Validar" />
+}
