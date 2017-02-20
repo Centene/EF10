@@ -1,0 +1,62 @@
+﻿@model EF10.Models.CabFrasGlobal
+
+@{
+    ViewBag.Title = "EdicionFras";
+}
+
+<h2>EdicionFras</h2>
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <tr>
+        <td>
+            <div class="editor-field">
+                @Html.DropDownList("IDPACIENTE", new SelectList(Model.PacientesGlob, "IDPACIENTE", "NOMBRE_Y_APELLIDOS"), "-- seleccione --", new { @class = "listviewmodel" }) &nbsp; &nbsp; Fecha Inicio :      @Html.EditorFor(model => model.fechainicio, new { htmlAttributes = new { @class = "datepicker" } }) &nbsp;&nbsp; Fecha Fin:  @Html.EditorFor(model => model.fechafin, new { htmlAttributes = new { @class = "datepicker" } })    <input type="submit" value="Manda" />
+            </div>
+
+        </td>
+
+    </tr>
+
+    <table class="table">
+        @foreach (var item in Model.FacturasGlob)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(modelItem => item.IDLINEAFRA)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.IDPACIENTE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NOMBRE_Y_APELLIDOS)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DNI)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FECHA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nº_FACTURA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TOTAL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nº_FACTURA)
+                </td>
+
+
+                <td>
+                    @*@Html.ActionLink("Editar", "Edit", "CabeceraFras", new { id = item.IDLINEAFRA }, null)*@
+                    @Html.ActionLink("Editar", "Editaoficial", "CabeceraFras", new { id = item.IDLINEAFRA }, null)
+                </td>
+            </tr>
+
+        }
+    </table>
+}
+

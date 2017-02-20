@@ -28,5 +28,59 @@ namespace EF10.Models
         public Nullable<decimal> TOTAL { get; set; }
 
         public virtual Pacientes Pacientes { get; set; }
+        public string Calcula_Ultima_Fra(string factura)
+        {
+            int pos_slash = factura.IndexOf('/');
+            int pos_guion = factura.IndexOf('-');
+            int dif = pos_guion - pos_slash;
+
+
+            string strdigito = factura.Substring(pos_slash + 1, dif - 1);
+            int numero;
+            numero = Convert.ToInt16(strdigito);
+            numero++;
+            strdigito = numero.ToString();
+            string anio = factura.Substring(pos_guion + 1, 4);
+            // ahora la serie
+            string serie = factura.Substring(0, pos_slash + 1);
+
+            factura = serie + strdigito + '-' + anio;
+            return factura;
+        }
+        public static void CreaNuevaFra(CabeceraFras fra)
+        {
+            IVANNEntities db = new IVANNEntities();
+            try
+            {
+
+                db.CabeceraFras.Add(fra);
+                db.SaveChanges();
+
+            }
+            catch
+            {
+
+            }
+        }
+        public List<CabeceraFras> GetFrasByIDPACIENTE(int idpaciente)
+        {
+            CabeceraFras factura = new CabeceraFras();
+            List<CabeceraFras> facturas = new List<CabeceraFras>();
+            IVANNEntities db = new IVANNEntities();
+            var res = db.Get_Fras_By_Id(idpaciente);
+            foreach (var item in res)
+            {
+                factura.IDLINEAFRA = item.IDLINEAFRA;
+                factura.IDPACIENTE = item.IDPACIENTE;
+                factura.DNI = item.DNI;
+                factura.FECHA = item.FECHA;
+                factura.Nº_FACTURA = item.Nº_FACTURA;
+                factura.NOMBRE_Y_APELLIDOS = item.NOMBRE_Y_APELLIDOS;
+                factura.TOTAL = item.TOTAL;
+                facturas.Add(factura);
+                factura = new CabeceraFras();
+            }
+            return facturas;
+        }
     }
 }

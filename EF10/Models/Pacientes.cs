@@ -28,5 +28,25 @@ namespace EF10.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CabeceraFras> CabeceraFras { get; set; }
+        public List<Pacientes> GetALLPacientes()
+        {
+            Pacientes paciente = new Pacientes();
+            List<Pacientes> pacientes = new List<Pacientes>();
+            IVANNEntities db = new IVANNEntities();
+            var res = db.Get_All_Pacientes();
+            foreach (var item in res)
+            {
+                paciente.IDPACIENTE = item.IDPACIENTE;
+                paciente.ORDEN = item.ORDEN;
+                paciente.NOMBRE_Y_APELLIDOS = item.NOMBRE_Y_APELLIDOS;
+                paciente.DNI = item.DNI;
+                paciente.CUENTA_BANCO = item.CUENTA_BANCO;
+                pacientes.Add(paciente);
+                paciente = new Pacientes();
+            }
+
+            return pacientes;
+        }
+
     }
 }

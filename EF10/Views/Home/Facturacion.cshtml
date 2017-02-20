@@ -1,0 +1,40 @@
+﻿@model EF10.Models.CabFrasGlobal
+
+@{
+    ViewBag.Title = "Facturacion";
+}
+
+<h2>Facturacion</h2>
+
+@using (Html.BeginForm())
+
+{
+    @*<p>
+            <div class="editor-field">
+                @Html.DropDownList("IDPACIENTE", new SelectList(Model.PacientesGlob, "IDPACIENTE", "NOMBRE_Y_APELLIDOS"), "-- seleccione --", new { @class = "listviewmodel" })   <input type="submit" value="Manda" />
+            </div>
+        </p>*@
+
+    <text>
+        <p>
+            @Html.RadioButton("serie", "CD", new { @checked = "checked" })@Html.Label("CD")
+        </p>
+
+
+        <p>
+            @Html.RadioButton("serie", "TEA")@Html.Label("TEA")
+        </p>
+
+    </text>
+
+    <p>
+        @{
+            string dia = DateTime.Now.ToShortDateString();
+            var mes = DateTime.Now.ToString("yyyy-MM-dd");
+        }
+        <input type="date" name="fecha" value=@mes>
+
+    </p>
+    <input type="submit" value="Manda" />
+
+            }

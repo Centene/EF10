@@ -1,0 +1,17 @@
+﻿@model EF10.Models.Pacientes
+
+@{
+    ViewBag.Title = "Edita";
+}
+
+<h2>Edita</h2>
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IDPACIENTE)
+    <p>@Html.EditorFor(model => model.NOMBRE_Y_APELLIDOS)</p>
+    <p><input type="submit" value="Guardar" /></p>
+    @Html.ActionLink("Back to List", "Index")
+    @*@Html.ActionLink("Editar Paciente", "Editar", new { id = Model.IDPACIENTE })*@
+}
+

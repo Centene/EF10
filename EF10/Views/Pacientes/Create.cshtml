@@ -1,0 +1,39 @@
+﻿@model EF10.Models.Pacientes
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.LabelFor(model => model.NOMBRE_Y_APELLIDOS)
+    </p>
+    <p>
+        @Html.EditorFor(model => model.NOMBRE_Y_APELLIDOS)
+    </p>
+    <p>
+        @Html.LabelFor(model => model.ORDEN)
+    </p>
+    <p>
+        @Html.EditorFor(model => model.ORDEN)
+    </p>
+    <p>
+        @Html.LabelFor(model => model.DNI)
+    </p>
+    <p>
+        @Html.EditorFor(model => model.DNI)
+    </p>
+    <p>
+        @Html.LabelFor(model => model.CUENTA_BANCO)
+    </p>
+    <p>
+        @Html.EditorFor(model => model.CUENTA_BANCO)
+    </p>
+    <p>
+        <input type="submit" value="Grabar" />
+    </p>
+}
+

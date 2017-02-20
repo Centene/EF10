@@ -132,12 +132,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CabeceraFrasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CabeceraFras.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CabFrasGlobal.cs" />
     <Compile Include="Models\Fras_By_Paciente_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -302,6 +304,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\CabeceraFras\Index.cshtml" />
+    <Content Include="Views\Home\EdicionFras.cshtml" />
+    <Content Include="Views\Home\Facturacion.cshtml" />
+    <Content Include="Views\CabeceraFras\Editaoficial.cshtml" />
+    <Content Include="Views\Pacientes\Index.cshtml" />
+    <Content Include="Views\Pacientes\Edita.cshtml" />
+    <Content Include="Views\Pacientes\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
