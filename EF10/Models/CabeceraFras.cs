@@ -31,6 +31,10 @@ namespace EF10.Models
 
         public virtual Pacientes Pacientes { get; set; }
         public string Serie;
+        [DataType(DataType.Date)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime fecharemesa { get; set; }
         public string Calcula_Ultima_Fra(string factura)
         {
             int pos_slash = factura.IndexOf('/');

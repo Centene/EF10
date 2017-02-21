@@ -1,0 +1,12 @@
+﻿@model EF10.Models.CabeceraFras
+
+@{
+    ViewBag.Title = "Generar";
+}
+
+<h2>Generar</h2>
+@using (Html.BeginForm())
+{
+    @Html.EditorFor(model => model.fecharemesa, new { htmlAttributes = new { @class = "datepicker" } })
+    <input id="Submit1" type="submit" value="submit" />
+}

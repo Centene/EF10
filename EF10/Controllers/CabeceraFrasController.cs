@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -41,6 +42,10 @@ namespace EF10.Controllers
 
 
             return View(framod);
+        }
+        public ActionResult Generar()
+        {
+            return View();
         }
 
 
@@ -119,6 +124,17 @@ namespace EF10.Controllers
             {
                 string cadena;
             }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Generar(FormCollection collection)
+        {
+            DateTime param_fecha = Convert.ToDateTime(collection["fecharemesa"]);
+            int param_anio= param_fecha.Year;
+            //string mes = fecha.Month.ToString();
+            string mesminuscula = Convert.ToString(param_fecha.ToString("MMMM"));
+            string param_mes = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(mesminuscula);
+            
             return View();
         }
     }
