@@ -22,5 +22,6 @@ namespace EF10.Models
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime fechafin { get; set; }
+        public string Serie;
     }
 }

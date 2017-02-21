@@ -12,10 +12,11 @@ namespace EF10.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using System.Configuration;
+    using System.Data.SqlClient;
+    using System.Data;
     public partial class CabeceraFras
     {
-        [Key]
         public int IDLINEAFRA { get; set; }
         public int IDPACIENTE { get; set; }
         public string NOMBRE_Y_APELLIDOS { get; set; }
@@ -23,11 +24,13 @@ namespace EF10.Models
         [DataType(DataType.Date)]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FECHA { get; set; }
         public string Nº_FACTURA { get; set; }
         public Nullable<decimal> TOTAL { get; set; }
 
         public virtual Pacientes Pacientes { get; set; }
+        public string Serie;
         public string Calcula_Ultima_Fra(string factura)
         {
             int pos_slash = factura.IndexOf('/');
@@ -39,7 +42,15 @@ namespace EF10.Models
             int numero;
             numero = Convert.ToInt16(strdigito);
             numero++;
-            strdigito = numero.ToString();
+            if (numero < 100)
+            {
+                strdigito = '0' + numero.ToString();
+            }
+            else
+            {
+                strdigito = numero.ToString();
+            }
+
             string anio = factura.Substring(pos_guion + 1, 4);
             // ahora la serie
             string serie = factura.Substring(0, pos_slash + 1);
@@ -67,7 +78,7 @@ namespace EF10.Models
             CabeceraFras factura = new CabeceraFras();
             List<CabeceraFras> facturas = new List<CabeceraFras>();
             IVANNEntities db = new IVANNEntities();
-            var res = db.Get_Fras_By_Id(idpaciente);
+            var res = db.Get_Fras_By_Id(IDPACIENTE);
             foreach (var item in res)
             {
                 factura.IDLINEAFRA = item.IDLINEAFRA;
@@ -82,5 +93,57 @@ namespace EF10.Models
             }
             return facturas;
         }
+        public string GetProximaFraTEA()
+        {
+            string ultimaFra = "";
+            using (SqlConnection cnx = new SqlConnection(ConfigurationManager.ConnectionStrings["cnnString"].ToString()))
+            {
+
+                cnx.Open();
+                //MODIFICACION INICIO AÑO 2017
+                //const string sqlGetMaxFra = "SELECT * FROM ViewUltimaFraTea";
+                const string sqlGetMaxFra = "SELECT * FROM View_TEA_Ultima_2017";
+                using (SqlCommand cmd = new SqlCommand(sqlGetMaxFra, cnx))
+                {
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        ultimaFra = dataReader.GetString(dataReader.GetOrdinal("ULTIMAFRA_TEA"));
+
+                    }
+
+                }
+
+            }
+            string proximaFra = Calcula_Ultima_Fra(ultimaFra);
+            return proximaFra;
+        }  // fin de GetUltimaFraTEA
+        public string GetProximaFraCE()
+        {
+            string ultimaFra = "";
+            using (SqlConnection cnx = new SqlConnection(ConfigurationManager.ConnectionStrings["cnnString"].ToString()))
+            {
+
+                cnx.Open();
+                //modificacion inicio año 2017
+                //const string sqlGetMaxFra = "SELECT * FROM View_UltimaFraCe";
+                const string sqlGetMaxFra = "SELECT * FROM View_CE_Ultima_2017";
+                using (SqlCommand cmd = new SqlCommand(sqlGetMaxFra, cnx))
+                {
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        ultimaFra = dataReader.GetString(dataReader.GetOrdinal("ULTIMAFRA_CE"));
+
+                    }
+
+                }
+
+            }
+            string proximaFra = Calcula_Ultima_Fra(ultimaFra);
+            return proximaFra;
+        }  // fin de GetUltimaFraCE
+
+
     }
 }

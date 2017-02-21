@@ -4,8 +4,7 @@
     ViewBag.Title = "EdicionFras";
 }
 
-<h2>EdicionFras</h2>
-
+<h2>ModificacionFras</h2>
 @using (Html.BeginForm(FormMethod.Post))
 {
     <tr>
@@ -17,16 +16,18 @@
         </td>
 
     </tr>
+    <p>
 
+    </p>
     <table class="table">
+
+
         @foreach (var item in Model.FacturasGlob)
         {
             <tr>
                 <td>
                     @Html.HiddenFor(modelItem => item.IDLINEAFRA)
                 </td>
-
-
                 <td>
                     @Html.DisplayFor(modelItem => item.IDPACIENTE)
                 </td>
@@ -45,10 +46,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.TOTAL)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nº_FACTURA)
-                </td>
-
 
                 <td>
                     @*@Html.ActionLink("Editar", "Edit", "CabeceraFras", new { id = item.IDLINEAFRA }, null)*@
@@ -59,4 +56,6 @@
         }
     </table>
 }
+
+
 

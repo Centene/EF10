@@ -60,11 +60,45 @@ namespace EF10.Controllers
 
             return RedirectToAction("Index", "CabeceraFras", new { Serie, fechafra = fechita });
         }
+        //[HttpPost]
+        //public ActionResult EdicionFras(Pacientes info)
+        //{
+        //    CabFrasGlobal PACI_FRA = new CabFrasGlobal();
+        //    CabeceraFras fra = new CabeceraFras();
+        //    Pacientes paci = new Pacientes();
+        //    var id = info.IDPACIENTE;
+        //    int idpaciente = Convert.ToInt32(id);
+        //    PACI_FRA.PacientesGlob = paci.GetALLPacientes().ToList();
+        //    PACI_FRA.FacturasGlob = fra.GetFrasByIDPACIENTE(idpaciente);
+        //    return View(PACI_FRA);
+
+
+        //}
         [HttpPost]
         public ActionResult EdicionFras(int? IDPACIENTE, DateTime? fechainicio, DateTime fechafin)
         {
+            IVANNEntities db = new IVANNEntities();
+            CabFrasGlobal PACI_FRA = new CabFrasGlobal();
+            CabeceraFras fra = new CabeceraFras();
+            Pacientes paci = new Pacientes();
+            int idpaciente = Convert.ToInt32(IDPACIENTE);
+            // falta el sp  de entre fechas
+            PACI_FRA.PacientesGlob = paci.GetALLPacientes().ToList();
+            var res = db.sp_Get_Fras_By_ID_By_Fechas(fechainicio, fechafin, idpaciente);
+            foreach (var item in res)
+            {
+                fra.IDLINEAFRA = item.IDLINEAFRA;
+                fra.IDPACIENTE = item.IDPACIENTE;
+                fra.NOMBRE_Y_APELLIDOS = item.NOMBRE_Y_APELLIDOS;
+                fra.DNI = item.DNI;
+                fra.FECHA = item.FECHA;
+                fra.Nº_FACTURA = item.Nº_FACTURA;
+                fra.TOTAL = item.TOTAL;
+                PACI_FRA.FacturasGlob.Add(fra);
+                fra = new CabeceraFras();
 
-            return View();
+            }
+            return View(PACI_FRA);
 
 
         }
