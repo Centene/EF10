@@ -6,7 +6,38 @@
 
 <h2>Generar</h2>
 @using (Html.BeginForm())
+
 {
-    @Html.EditorFor(model => model.fecharemesa, new { htmlAttributes = new { @class = "datepicker" } })
-    <input id="Submit1" type="submit" value="submit" />
-}
+    @Html.RadioButton("formato", "WORD", new { @checked = "checked" })@Html.Label("Exportar a WORD")
+
+    
+    <br />
+    @Html.RadioButton("formato", "PDF")@Html.Label("Exportar a PDF")
+    <br />
+    <p>
+
+    </p>
+    <hr />
+    <p>
+
+    </p>
+    @Html.RadioButton("serie", "CD", new { @checked = "checked" })@Html.Label(" CD")
+    <br />
+    @Html.RadioButton("serie", "TEA")@Html.Label(" TEA")
+
+
+   
+
+    <hr />
+
+    <p>
+        @{
+            string dia = DateTime.Now.ToShortDateString();
+            var mes = DateTime.Now.ToString("yyyy-MM-dd");
+        }
+        <input type="date" name="fecha" id="fecha" value=@mes>
+
+    </p>
+    <input id="Submit1" type="submit" value="Exportar" />
+            }
+

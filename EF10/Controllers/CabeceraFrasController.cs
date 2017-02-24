@@ -6,6 +6,8 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 
 namespace EF10.Controllers
 {
@@ -44,6 +46,10 @@ namespace EF10.Controllers
             return View(framod);
         }
         public ActionResult Generar()
+        {
+            return View();
+        }
+        public ActionResult Remesar()
         {
             return View();
         }
@@ -129,13 +135,77 @@ namespace EF10.Controllers
         [HttpPost]
         public ActionResult Generar(FormCollection collection)
         {
-            DateTime param_fecha = Convert.ToDateTime(collection["fecharemesa"]);
-            int param_anio= param_fecha.Year;
+
+            DateTime param_fecha = Convert.ToDateTime(collection["fecha"]);
+            int param_anio = param_fecha.Year;
             //string mes = fecha.Month.ToString();
             string mesminuscula = Convert.ToString(param_fecha.ToString("MMMM"));
             string param_mes = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(mesminuscula);
-            
+            string Formato = collection["formato"];
+            string serie = collection["serie"];
+            string nombrearchivo = "";
+            using (ReportDocument customerReport = new ReportDocument())
+            {
+                if (serie == "CD")
+                {
+                    customerReport.FileName = Server.MapPath("~/") + "//Rpts//CE_16.rpt";
+                    nombrearchivo = "FACTURAS_CD_" + param_mes + '_' + param_anio;
+                }
+                else if (serie == "TEA")
+                {
+
+                    customerReport.FileName = Server.MapPath("~/") + "//Rpts//TEA_16.rpt";
+                    nombrearchivo = "FACTURAS_TEA_" + param_mes + '_' + param_anio;
+                }
+                customerReport.SetParameterValue("Mensualidad", param_mes);
+                customerReport.SetParameterValue("FechadeFactura", param_fecha);
+                customerReport.SetParameterValue("Anio", param_anio);
+
+
+
+
+                if (Formato == "WORD")
+                {
+                    customerReport.ExportToHttpResponse(ExportFormatType.RichText, System.Web.HttpContext.Current.Response, false, nombrearchivo);
+                }
+                else if (Formato == "PDF")
+                {
+                    customerReport.ExportToHttpResponse(ExportFormatType.PortableDocFormat, System.Web.HttpContext.Current.Response, false, nombrearchivo);
+                }
+
+
+            }
+
             return View();
         }
+        [HttpPost]
+        public ActionResult Remesar(FormCollection collection)
+        {
+
+            DateTime param_fecha = Convert.ToDateTime(collection["fecha"]);
+            int param_anio = param_fecha.Year;
+            string mesminuscula = Convert.ToString(param_fecha.ToString("MMMM"));
+            string param_mes = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(mesminuscula);
+            string nombrearchivo = "";
+
+            using (ReportDocument customerReport = new ReportDocument())
+            {
+
+                customerReport.FileName = Server.MapPath("~/") + "//Rpts//Remesas.rpt";
+                nombrearchivo = "REMESA_" + param_mes + '_' + param_anio;
+
+
+
+                customerReport.SetParameterValue("FechadeFactura", param_fecha);
+
+
+
+
+                customerReport.ExportToHttpResponse(ExportFormatType.Excel, System.Web.HttpContext.Current.Response, false, nombrearchivo);
+            }
+
+            return View();
+        }
+
     }
 }
